@@ -1,9 +1,9 @@
-OPENNESS PROVENANCE for Frankl's Conjecture 1.7 (=Yang-Zhang Conj 1.4), even case, at (n,t,k)=(9,3,3); r=(n-t)/2=3.
+OPENNESS PROVENANCE for the even-parity (2r-union / k-Sperner) conjecture, namely Frankl Conjecture 1.6 (Frankl, European J. Combin. 93 (2021) Paper 103279) = Balogh-Linz-Patkos Conjecture 1.7 (arXiv:2209.01656) = Yang-Zhang Conjecture 1.4 (arXiv:2607.03026), at (n,t,k)=(9,3,3); r=(n-t)/2=3.
 Status: OPEN as of 2026-07-09.
-- Frankl, European J. Combin. 93 (2021) Paper 103279:
+- Frankl, European J. Combin. 93 (2021) Paper 103279 (theorem numbers per the author's paper):
     Thm 1.11 applies to k=2 only (this cell has k=3).
     Thm 4.1 (2<=k<=r) proves it only for n > r(r+3) = 18; here n=9 (not > 18).
     Katona t-intersecting theorem settles it when the k-Sperner constraint is non-binding, i.e. k >= r+1 = 4; here k=3 < 4.
 - Balogh-Linz-Patkos, arXiv:2209.01656 (v1, no revision), Thm 1.10: settles fixed t and 'n large enough' with NO explicit n_0 (ineffective) -> does not cover any specific n.
-- Cross-check Yang-Zhang, arXiv:2607.03026 (v1, 3 Jul 2026): refutes only the ODD-parity BLP conjecture; even case untouched.
+- Cross-check Yang-Zhang, arXiv:2607.03026 (v1, 3 Jul 2026): refutes only the ODD-parity conjecture (Yang-Zhang Conjecture 1.6 = BLP Conjecture 1.8; Frankl's odd companion is his Conjecture 1.10); the even case is untouched.
 - Literature sweep 2026-07-09: BLP v1-only; no post-3-Jul-2026 follow-up closing even-parity cells; no paper computes the even-case maximum at n=9.
