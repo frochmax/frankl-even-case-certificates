@@ -1,5 +1,7 @@
 # Claims and openness provenance
 
+Archived on Zenodo — this version: DOI 10.5281/zenodo.21287287 ; all versions (concept): 10.5281/zenodo.21287286 .
+
 Each entry states an EXACT maximum we certify, with both-direction evidence and the openness
 provenance for that cell. Openness is stated **to the best of our determination** as of 2026-07-09,
 per the exact citations shown. We claim only these exact maxima — not the general conjecture.

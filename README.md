@@ -56,3 +56,14 @@ Success is judged by **checker exit code 0**, never by parsing a status line. DR
 checked by `drat-trim`; SAT witnesses by an **independent** exact-integer verifier. Everything is
 reproducible from source in minutes — see `REPRODUCE.md`. All artifacts are checksummed in
 `SHA256SUMS`. See `AI_DISCLOSURE.md` for how this work was produced.
+
+## Citation
+This archive is deposited on Zenodo.
+- **Cite this version:** DOI [10.5281/zenodo.21287287](https://doi.org/10.5281/zenodo.21287287)
+- **All versions (concept DOI, resolves to latest):** [10.5281/zenodo.21287286](https://doi.org/10.5281/zenodo.21287286)
+
+> *Certified even-case values for the Frankl / Balogh–Linz–Patkós t-intersecting k-Sperner
+> conjecture.* Zenodo (2026). https://doi.org/10.5281/zenodo.21287287
+
+(Author/depositor metadata is carried by the Zenodo record; see `AI_DISCLOSURE.md` for how the
+work was produced.)
