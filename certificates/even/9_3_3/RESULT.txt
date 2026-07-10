@@ -1,0 +1,4 @@
+=== CELL (n,t,k)=(9,3,3)  bound(conjectured max)=129  r=(n-t)/2=3  @ 2026-07-09 18:03:20 ===
+[UNSAT dir] kissat ge130: exit=20(20=UNSAT) 87.8s | drat-trim EXIT=0 (VERIFIED) 131.6s
+[SAT dir]  kissat ge129: exit=10(10=SAT) | witness size=129 valid_family=True tint=True k_sperner=True (>= bound 129: True)
+CELL RESULT: UNSAT-dir certified=True  SAT-dir verified=True  => BOTH-DIRECTIONS=True
