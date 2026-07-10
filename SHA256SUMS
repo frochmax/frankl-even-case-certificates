@@ -1,4 +1,4 @@
-34dee8587aa70188a790ad1bdfe79299e6c6e6dd9c1526da92e1d46b04b763ea  ./AI_DISCLOSURE.md
+d1c06efbc2b1afc3400f9904b66acd7fb487520d885795f13bb7b091da3751e9  ./AI_DISCLOSURE.md
 3ed203865cdce7a00a41bcfb2dccd299c645ed05de8a29aca10aff139fdb0029  ./CLAIMS.md
 0a79d25a2a18c6db5c6070e78a567f5dc42b8efcc5a48fa9d94e0d7f7372095a  ./README.md
 930bdd3dd58bf60a92a8a57f1f4aab5c2e841dd0b3dc0646cf64918d4a8f773f  ./REPRODUCE.md
@@ -19,4 +19,4 @@ ee7147c9a337947386e7b9f1a9658c4f1386b7a981f929c5d0ee11e37818a40a  ./certificates
 dc3ed626aa02c7aab140913d22ef0cfb6f7baff2747b65ce093fde86402e236c  ./tools/cert_cell.py
 5760fb2046c31c77aad393bd57d28da12bdb67be4e14b14620b53b9fd669f8d2  ./tools/check_witness.py
 77fedcac091662320052d8bd89909151943a2bd69b1153ee8ecf4ee3c39a9af5  ./tools/cnf_build.py
-c80a13bf8ed42b4fa6b61aa7b1dfc8dfff7491c4688fc8a7cb3d87a1cbb503e5  ./tools/verifier_standalone.py
+75cdc1754f1d22974ae0254afa11cef205955d9f89d8d32094a22e0da0b97318  ./tools/verifier_standalone.py

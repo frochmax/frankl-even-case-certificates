@@ -7,13 +7,25 @@ the **Claude Code** agent, under human direction.
 ## What the AI did
 - Wrote the CNF encoder, the certification driver, and the standalone verifier.
 - Built the toolchain from source (kissat, drat-trim) and ran all computations.
-- Located and read the primary sources; drafted the openness provenance.
+- Machine-read the primary sources and drafted the openness provenance from their text.
+
+## Primary-source verification chain (exact)
+The conjecture numbering and the exact Frankl ranges in `README.md`/`CLAIMS.md` were taken from the
+papers' own text, machine-read by the AI — not from the model's memory:
+- **Balogh–Linz–Patkós (arXiv:2209.01656)** and **Yang–Zhang (arXiv:2607.03026)**: the AI fetched
+  the arXiv PDFs and extracted their text; confirmed BLP Conjecture 1.7 and Yang–Zhang
+  Conjecture 1.4 (even case), and Yang–Zhang Conjecture 1.6 = BLP Conjecture 1.8 (odd case).
+- **Frankl, EJC 93 (2021) 103279**: this paper is *not* on arXiv and was behind a paywall, so the
+  AI could **not** access it initially and said so. The **human then placed the PDF on local disk**;
+  the AI machine-read that file with `pypdf` and confirmed **from the extracted text**: the
+  even-case 2r-union/k-Sperner conjecture is **Frankl Conjecture 1.6**; **Theorem 1.11** (k=2,
+  n ≥ 3r+1, |F| ≤ C(n,r)+C(n,r−1)); **Theorem 4.1** (2 ≤ k ≤ r, optimal for n > r(r+3)); odd
+  companion **Conjecture 1.10**. (Per Elsevier copyright, the PDF and its text are **not** included
+  in this bundle — cited only.)
 
 ## What the human directed and controls
 - The research goals, the choice of targets, and the **evidentiary standard** (below).
-- The requirement that provenance of *openness* be established from **primary sources** (Frankl EJC
-  93 (2021) 103279; Balogh–Linz–Patkós arXiv:2209.01656; Yang–Zhang arXiv:2607.03026), not from
-  the model's memory — the exact Frankl thresholds in `CLAIMS.md` were taken from the paper itself.
+- Supplying primary sources and requiring openness to be established from them, not from memory.
 - The rule that a result counts **only** when an independent checker returns exit code 0.
 
 ## Why you should not have to trust the AI (or us)

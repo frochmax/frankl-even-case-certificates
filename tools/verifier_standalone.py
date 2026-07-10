@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""STANDALONE exact-integer verifier for a claimed counterexample to Frankl Conj 1.4.
+"""STANDALONE exact-integer verifier for the even-parity t-intersecting k-Sperner conjecture,
+i.e. Frankl Conjecture 1.6 (EJC 93 (2021) 103279) = Balogh-Linz-Patkos Conjecture 1.7
+(arXiv:2209.01656) = Yang-Zhang Conjecture 1.4 (arXiv:2607.03026). Given a family, checks that it
+is t-intersecting and k-Sperner and reports its size against the conjectured maximum.
 No imports from the model pipeline. Sets are Python frozensets of ints (exact arithmetic)."""
 from itertools import combinations
 
@@ -10,7 +13,9 @@ def nCr(n, r):
     return num // den
 
 def conj_1_4_bound(n, t, k):
-    if (n+t) % 2 != 0 or n <= t: return None   # Conj 1.4 only defined for n+t even, n>t
+    # Computes the EVEN-CASE conjectured maximum  sum_{i=0}^{k-1} C(n, (n+t)/2 + i)
+    # (Frankl Conj 1.6 / BLP Conj 1.7 / YZ Conj 1.4). Function name kept for compatibility.
+    if (n+t) % 2 != 0 or n <= t: return None   # even case only: requires n+t even, n>t
     return sum(nCr(n, (n+t)//2 + i) for i in range(k))
 
 def check(family, n, t, k, verbose=True):
