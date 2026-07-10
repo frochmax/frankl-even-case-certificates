@@ -25,9 +25,9 @@ For each cell we certify the exact maximum M(n,t,k):
 | (9,3,2) | **120** | yes = C(9,6)+C(9,7) | exit 0 (VERIFIED) | verified |
 | (9,3,3) | **129** | yes = C(9,6)+C(9,7)+C(9,8) | exit 0 (VERIFIED) | verified |
 
-*In progress, NOT certified (excluded from the table above): (10,2,2) and (10,2,3) are being
-computed and will be added in a follow-up commit only once both directions verify.* See
-`CLAIMS.md` for the authoritative per-cell status.
+*Attempted but NOT certified (and not part of this bundle's claims): (10,2,2) and (10,2,3) did not
+certify within our initial compute budget; further attempts may follow.* See `CLAIMS.md` for the
+authoritative per-cell status.
 
 ## Why these instances
 Frankl (EJC 93 (2021), Paper 103279) proves the even-parity conjecture only in certain ranges:
