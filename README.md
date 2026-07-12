@@ -5,7 +5,13 @@ k-Sperner** families in the Boolean lattice 2^[n], in the **even-parity** case (
 
 ## The conjecture, and how each source numbers it
 F ⊆ 2^[n] is **t-intersecting** if |A∩B| ≥ t for all A,B ∈ F, and **k-Sperner** if it contains no
-chain of k+1 sets. The even-parity conjecture (n+t even, n>t) is
+chain of k+1 sets.
+
+Note (WLOG): the encoding's variable universe excludes sets of size < t. This is lossless: any
+set A with |A| < t satisfies |A ∩ B| ≤ |A| < t for every set B, so a t-intersecting family
+containing A has size 1 and cannot approach the bound; families of size 1 trivially satisfy it.
+
+The even-parity conjecture (n+t even, n>t) is
 > |F| ≤ Σ_{i=0}^{k-1} C(n, (n+t)/2 + i).
 
 It is **Frankl Conjecture 1.6** (Frankl, European J. Combin. 93 (2021), Paper 103279) =

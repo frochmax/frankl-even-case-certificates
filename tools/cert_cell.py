@@ -7,6 +7,7 @@ from verifier_standalone import check
 K="tools/kissat/build/kissat"; D="tools/drat-trim/drat-trim"
 CERTROOT="/Users/maxfroch/Desktop/conj-refute/certificates/even"
 def pc(x): return bin(x).count('1')
+# even-parity formula only; all certified cells here have n+t even
 def conj_bound(n,t,k): return sum(comb(n,(n+t)//2+i) for i in range(k))
 
 def build_cnf(n,t,k,target,path):
