@@ -63,6 +63,37 @@ checked by `drat-trim`; SAT witnesses by an **independent** exact-integer verifi
 reproducible from source in minutes — see `REPRODUCE.md`. All artifacts are checksummed in
 `SHA256SUMS`. See `AI_DISCLOSURE.md` for how this work was produced.
 
+**Encoder validation (Milner ground truth).** The encoder was validated against a human-proven
+theorem: for (n,t,k)=(9,3,1) — t-intersecting antichains — Milner's theorem (1968) gives the exact
+maximum C(9,6)=84. The pipeline, never tuned for k=1, reproduced 84 in both directions: kissat
+UNSAT at ≥85 with drat-trim exit 0, and a size-84 witness accepted by the standalone verifier. This
+checks that the encoding is faithful to the definitions, independently of the certificates
+themselves. The run is reproducible in minutes via `tools/cert_cell.py` with (n,t,k)=(9,3,1);
+validation artifacts are retained locally and available on request.
+
+## References
+
+**Papers**
+- P. Frankl, *Analogues of Milner's theorem for families without long chains and of vector spaces*,
+  European J. Combin. 93 (2021), Paper 103279.
+- J. Balogh, W. B. Linz, B. Patkós, *On the sizes of t-intersecting k-chain-free families*,
+  arXiv:2209.01656.
+- J.-B. Yang, L. Zhang, *Counterexamples to the Balogh–Linz–Patkós Conjecture*, arXiv:2607.03026
+  (2026).
+- E. C. Milner, *A combinatorial theorem on systems of sets*, J. London Math. Soc. 43 (1968),
+  204–206. (Cited as Theorem 1.5 in Frankl, EJC 93 (2021).)
+
+**Tools**
+- A. Biere, T. Faller, K. Fazekas, M. Fleury, N. Froleyks, F. Pollitt, *CaDiCaL, Gimsatul, IsaSAT
+  and Kissat Entering the SAT Competition 2024*, in: Proc. SAT Competition 2024 – Solver, Benchmark
+  and Proof Checker Descriptions, Dept. of Computer Science Report Series B, vol. B-2024-1, Univ. of
+  Helsinki, 2024, pp. 8–10. (Preferred citation per the kissat README.)
+- N. Wetzler, M. J. H. Heule, W. A. Hunt Jr., *DRAT-trim: Efficient Checking and Trimming Using
+  Expressive Clausal Proofs*, in: Theory and Applications of Satisfiability Testing – SAT 2014,
+  Lecture Notes in Computer Science 8561, Springer, 2014, pp. 422–429.
+- A. Ignatiev, A. Morgado, J. Marques-Silva, *PySAT: A Python Toolkit for Prototyping with SAT
+  Oracles*, in: Theory and Applications of Satisfiability Testing – SAT 2018.
+
 ## Citation
 This archive is deposited on Zenodo.
 - **Cite this version:** DOI [10.5281/zenodo.21287287](https://doi.org/10.5281/zenodo.21287287)
