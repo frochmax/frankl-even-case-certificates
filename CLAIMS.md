@@ -48,3 +48,29 @@ Status: OPEN as of 2026-07-09.
 - Balogh-Linz-Patkos, arXiv:2209.01656 (v1, no revision), Thm 1.10: settles fixed t and 'n large enough' with NO explicit n_0 (ineffective) -> does not cover any specific n.
 - Cross-check Yang-Zhang, arXiv:2607.03026 (v1, 3 Jul 2026): refutes only the ODD-parity conjecture (Yang-Zhang Conjecture 1.6 = BLP Conjecture 1.8; Frankl's odd companion is his Conjecture 1.10); the even case is untouched.
 - Literature sweep 2026-07-09: BLP v1-only; no post-3-Jul-2026 follow-up closing even-parity cells; no paper computes the even-case maximum at n=9.
+
+## Complete resolution of n=9 (even parity)
+
+With the two certified cells above, every even-parity cell at n=9 (t in {1,3,5,7}, all k>=1) is
+determined, and in every cell the conjectured value Sum_{i=0}^{k-1} C(9,(9+t)/2+i) is the exact
+maximum. This repository's certificates settle EXACTLY the two cells -- (9,3,2)=120 and (9,3,3)=129
+-- where no classical or modern theorem applies. All other cells are prior literature and are NOT
+claimed as contributions of this work. Verified per-cell provenance (r=(9-t)/2):
+
+- t=7 (r=1): k=1 -> 9 = C(9,8), Milner 1968; k>=2 -> 10, Katona collapse (k>=r+1=2; full
+  t-intersecting maximum, Katona 1964).
+- t=5 (r=2): k=1 -> 36 = C(9,7), Milner 1968; k=2 -> 45, Frankl EJC 93 (2021) 103279 Thm 1.11
+  (hypothesis n>=3r+1=7 satisfied at n=9); k>=3 -> 46, Katona collapse (k>=r+1=3).
+- t=3 (r=3): k=1 -> 84 = C(9,6), Milner 1968 (used as encoder ground-truth here); k=2 -> 120 and
+  k=3 -> 129, THIS REPOSITORY (certified both directions, drat-trim exit 0 + verified witness);
+  k>=4 -> 130, Katona collapse (k>=r+1=4).
+- t=1 (r=4): k=1 -> 126 = C(9,5), Milner 1968; k=2,3,4 -> 210/246/255, Frankl "Canonical antichains
+  on the circle and applications", SIAM J. Discrete Math. 3 (1990) 355-363 (maximum intersecting
+  k-Sperner family, all n; odd-n value Sum_{i=(n+1)/2}^{(n+1)/2+k-1} C(n,i)); re-proved by Gerbner
+  (Combinatorica 33, 2013) and Gerbner-Methuku-Tompkins (JCTA 151, 2017). Statement verified verbatim
+  against the GMT arXiv version (arXiv:1506.00864v2, Theorem 8); the Frankl-1990 origin follows
+  Patkos's survey (GMT state Theorem 8 as attributed to Gerbner 2013). k>=5 -> 256 (full intersecting
+  family, all sets of size >=5; Katona collapse k>=r+1=5).
+
+Attribution note: the t=1, t=5, and t=7 values are established prior results (Milner 1968; Frankl
+1990; Frankl EJC 2021 Thm 1.11; Katona 1964). This work contributes only the two t=3 certificates.

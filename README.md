@@ -35,6 +35,43 @@ For each cell we certify the exact maximum M(n,t,k):
 certify within our initial compute budget; further attempts may follow.* See `CLAIMS.md` for the
 authoritative per-cell status.
 
+## Complete resolution of n=9 (even parity)
+With the two certificates above, **every even-parity cell at n=9 — t ∈ {1,3,5,7}, all k ≥ 1 — is
+now determined**, and in every cell the conjectured value Σ_{i=0}^{k-1} C(9, (9+t)/2 + i) is the
+exact maximum. The certificates in this repository settle **exactly the two cells — (9,3,2) and
+(9,3,3) — where no classical or modern theorem applies**; every other cell in the table is a prior
+result, and the table records why nothing new was needed there.
+
+**Attribution:** the t=1, t=5 and t=7 values below are **prior literature, not contributions of this
+work.** Only the two cells marked **[this repo]** are certified here.
+
+| t (r=(9−t)/2) | k | M(9,t,k) | Provenance |
+|---|---|---:|---|
+| **t=7** (r=1) | 1 | 9 | Milner 1968 (t-intersecting antichain), C(9,8) |
+|  | ≥2 | 10 | Katona collapse: k ≥ r+1=2, k-Sperner non-binding → full t-intersecting max (Katona 1964) |
+| **t=5** (r=2) | 1 | 36 | Milner 1968, C(9,7) |
+|  | 2 | 45 | Frankl 2021 (EJC 93, 103279), Thm 1.11: hypothesis n ≥ 3r+1 = 7 is satisfied (n=9) |
+|  | ≥3 | 46 | Katona collapse: k ≥ r+1=3 (Katona 1964) |
+| **t=3** (r=3) | 1 | 84 | Milner 1968, C(9,6) — used here as encoder ground-truth (see Verification standard) |
+|  | 2 | **120** | **[this repo]** certified both directions (drat-trim exit 0; witness verified) |
+|  | 3 | **129** | **[this repo]** certified both directions (drat-trim exit 0; witness verified) |
+|  | ≥4 | 130 | Katona collapse: k ≥ r+1=4 (Katona 1964) |
+| **t=1** (r=4) | 1 | 126 | Milner 1968, C(9,5) |
+|  | 2 | 210 | Frankl 1990 (max intersecting k-Sperner) † |
+|  | 3 | 246 | Frankl 1990 † |
+|  | 4 | 255 | Frankl 1990 † |
+|  | ≥5 | 256 | Full intersecting family (all sets of size ≥5); Katona collapse k ≥ r+1=5 |
+
+† **Frankl**, *Canonical antichains on the circle and applications*, SIAM J. Discrete Math. **3**(3)
+(1990), 355–363, which determines the maximum size of an intersecting (t=1) k-Sperner family for
+**all n** (no threshold). For odd n it equals Σ_{i=(n+1)/2}^{(n+1)/2+k−1} C(n,i); at n=9 that is
+Σ_{i=5}^{4+k} C(9,i) = 210 / 246 / 255 for k = 2 / 3 / 4. Re-proved by **Gerbner**, Combinatorica
+**33** (2013), 199–216, and by **Gerbner–Methuku–Tompkins**, *Intersecting P-free families*, J.
+Combin. Theory Ser. A **151** (2017), 61–83. The statement was verified verbatim against the GMT
+arXiv version (arXiv:1506.00864v2, Theorem 8, with equality family H₀,ₙ,ₖ = the union of levels
+⌊n/2⌋+1, …, ⌊n/2⌋+k); the Frankl-1990 origin follows Patkós's survey (GMT's Theorem 8 is itself
+attributed there to Gerbner 2013).
+
 ## Why these instances
 Frankl (EJC 93 (2021), Paper 103279) proves the even-parity conjecture only in certain ranges:
 **Thm 1.11** (k=2) requires **n ≥ 3r+1**, where r=(n−t)/2; **Thm 4.1** (2≤k≤r) requires
@@ -82,6 +119,14 @@ validation artifacts are retained locally and available on request.
   (2026).
 - E. C. Milner, *A combinatorial theorem on systems of sets*, J. London Math. Soc. 43 (1968),
   204–206. (Cited as Theorem 1.5 in Frankl, EJC 93 (2021).)
+- P. Frankl, *Canonical antichains on the circle and applications*, SIAM J. Discrete Math. 3 (1990),
+  355–363. (Maximum size of an intersecting k-Sperner family — settles the t=1 column above.)
+- D. Gerbner, *Profile polytopes of some classes of families*, Combinatorica 33 (2013), 199–216.
+  (Re-proof of the intersecting k-Sperner maximum.)
+- D. Gerbner, A. Methuku, C. Tompkins, *Intersecting P-free families*, J. Combin. Theory Ser. A 151
+  (2017), 61–83 (arXiv:1506.00864). (Re-proof; Theorem 8 quoted to verify the t=1 values above.)
+- G. O. H. Katona, *Intersection theorems for systems of finite sets*, Acta Math. Acad. Sci. Hungar.
+  15 (1964), 329–337. (Maximum t-intersecting family — the k ≥ r+1 "collapse" values above.)
 
 **Tools**
 - A. Biere, T. Faller, K. Fazekas, M. Fleury, N. Froleyks, F. Pollitt, *CaDiCaL, Gimsatul, IsaSAT
