@@ -73,6 +73,25 @@ counting-closable), while the main branch m≤7, where the extremum lives, hits 
 configuration anchors that reduce S₁₀ symmetry inside the m≤7 region), to be rehearsed on (10,2,1)
 before any open-cell compute. See `ANCHOR_NOTE.md`.
 
+**Path 2 direction 1 (Milner-stability / antichain splitting) — CLOSED (2026-07-19).** Literature
+recon in `PATH2_NOTE.md`: **no off-the-shelf stability or uniqueness theorem exists at (n,t)=(10,2)**
+(Milner is stated bare in every source found, while adjacent theorems carry explicit equality
+clauses; BLP's even-case uniqueness is gated on an ineffective n₀; the one genuine
+suboptimal-structure theorem, Shan–Zhou 2023, is for vector spaces, not 2^[n]). Decisively, a
+bespoke ladder's **output** would be a *size* fact — |A_i| ≥ 121 of 210 = **57.6 % saturation** —
+which the propagation law and ignition bisection in `ANCHOR_NOTE.md` already measured as far below
+ignition (b\* ≈ 90 %; the 58 % and 64 % floors were probed and timed out). The direction is viable
+only if redesigned to output **containment in a named family** rather than a size, and no such
+theorem exists at these parameters.
+
+**Direction 3 (constrained-pigeonhole LP) — CLOSED by the same argument, without a recon.** An LP
+over level profiles likewise outputs a *size* fact, so it lands in the same pre-measured
+below-ignition regime. No probe is justified.
+
+**Standing for the g ≤ 75 leaf:** awaiting either the **certified-SB toolchain** (Path 1 — see the
+passive watch below and `TOOLING.md`) or a **new containment-type theorem** (a research question,
+not a probe target).
+
 ## Passive watch (alternative resumption)
 
 Route (ii) resumes automatically if a **VeriPB-3.0-emitting SAT solver on arm64** appears (watch:
