@@ -272,7 +272,8 @@ The clean route is **complementation to EKR**: for 6-sets in [10], |A∩B| ≥ 3
 - **uniqueness holds**: the unique optimum is a star, i.e. back in the original picture **all 6-subsets
   of a fixed 9-set** — exactly the B-i configuration.
 
-**Hilton–Milner** then bounds non-trivial families: C(9,3) − C(5,3) + 1 = **75**, giving the dichotomy
+**Hilton–Milner** at **(n,k) = (10,4)** — H consists of 4-subsets of [10] — then bounds non-trivial
+families: HM(10,4) = C(9,3) − C(5,3) + 1 = 84 − 10 + 1 = **75**, giving the dichotomy
 
 > **either G ⊆ the 6-subsets of some 9-set (= B-i, up to S₁₀), or g = |G| ≤ 75.**
 
@@ -280,15 +281,24 @@ So for **g ≥ 76 the B-i WLOG is forced, not assumed**; for g ≤ 75 it is **no
 needs separate treatment.
 
 **D = 53.** In the g ≤ 75 leaf, the maximum number of missing sets through any single element:
-deg_G(x) = |H_x| with H_x intersecting 4-uniform on the 9 points [10]\{x}. If H_x is non-star, HM on
+deg_G(x) = |H_x| with H_x intersecting 4-uniform on the 9 points [10]\{x}. **Note the two HM
+instantiations sit at different (n,k):** the 75 above is HM(10,4) because H lives on all of [10],
+whereas the bound here is HM(9,4) because H_x lives on the 9 points [10]\{x}. (HM(9,4) = 53 ≠ 75;
+the C(9,3) in the first has n−1 = 9, i.e. n = 10.) If H_x is non-star, HM on
 (9,4) (strict 9 > 8) gives |H_x| ≤ C(8,3) − C(4,3) + 1 = 53; if H_x is a star through y, non-starness
 of H forces a T ∋ x, y ∉ T meeting all of H_x, excluding C(5,3) = 10 members, so |H_x| ≤ 56 − 10 = 46.
 Hence **D = 53**, attained by the HM family on [9] (size 53, intersecting, non-star, and machine-checked
 **locally maximal**: none of the 126 4-sets can be added). *Scope: achievability and local maximality
 are machine-checked; the exhaustive upper bound is cited to Hilton–Milner, not enumerated.*
 
-**Consequence:** in the g ≤ 75 leaf every star of F is at least (126 − 53)/126 ≈ 58 % present — a
-guaranteed ≥ 73 forced-present sets in some star. Given that 126 positive units drove 1013 → 120 free,
+**Consequence.** Two distinct floors, with different quantifiers — neither implies the other:
+
+- **Worst case (HM, D = 53):** *every* element has deg_G(x) ≤ 53, so **every** star of F is at least
+  (126 − 53)/126 ≈ 58 % present — **≥ 73 forced-present sets in every star**.
+- **Averaging (pigeonhole):** g ≤ 75 and each missing 6-set covers 6 elements, so the degrees sum to
+  6g ≤ 450 over 10 elements; the minimum is ≤ 45. Hence **some** star is **≥ 81/126 present**.
+
+Given that 126 positive units drove 1013 → 120 free,
 a forced 73 is a substantial positive-pressure handle, and it is *forced-presence* in the sense the
 propagation law requires. **Not encoded; design item only.**
 
