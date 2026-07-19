@@ -209,6 +209,94 @@ the constraints are symmetric).
 Every type has last region 0, as forced: |A∪B| = 9 and e ∈ C, so nothing lies outside A∪B∪C.
 **A 6-way (or 4-way) split is small enough to be a practical case tree** if each leaf behaves like B-i.
 
+### The propagation law (measured, 2026-07-18/19)
+
+The B-ii leaf rehearsal was designed to test whether a *cleverer* anchor pattern helps. It does not,
+and the measurement says why. **What governs is not anchor size but whether the anchor pins variables
+TRUE.**
+
+| cube | anchor | free vars (of 1013) | verdict |
+|------|--------|--------------------:|---------|
+| **B-i** | 126 **positive units** (star of 10 present) | **120** | **UNSAT 0 s**, `s VERIFIED` |
+| case A | 2 negative units (missing pair) | 955 | TIMEOUT 900 s |
+| B-ii L1 | 3 negative units, type (3,0,2,1,0,3,1,0) | 954 | TIMEOUT 600 s |
+| B-ii L2 | 3 negative units, type (3,0,1,2,1,2,1,0) | 954 | TIMEOUT 600 s |
+| f₆ ≥ 135 | cardinality, **positive but not unit** | 957 | TIMEOUT 600 s |
+| leaf (0) f₆ ≥ 209 | cardinality, **positive, near-unit** | 957 | **UNSAT 0 s**, `s VERIFIED` |
+
+**Mechanism.** Both structural constraint families — the antichain (k-Sperner) clauses and the
+2-intersecting clauses — are **entirely negative**. A negative clause only fires once some variable is
+set TRUE. Therefore:
+
+- **Positive units cascade.** Forcing a set present immediately kills every comparable set (antichain)
+  and every set meeting it in < t (intersecting), which kills further sets in turn. B-i's 126 units
+  removed 767 more variables, collapsing 1013 → 120.
+- **Negative units land in vacuum.** Forbidding a set fires nothing at all: it removes exactly the
+  variables it names and no more. Case A (2 units → 955 free) and B-ii L1/L2 (3 units → 954 free) are
+  the same measurement three times over, across three different intersection patterns. **No amount of
+  cleverness in choosing *which* sets to forbid changes this** — it is a property of clause polarity,
+  not of the configuration.
+
+**Refinement — positivity is necessary but not sufficient; it must bite.** The f₆ ≥ 135 cube tested the
+Hilton–Milner-licensed g ≤ 75 region as *positive pressure* rather than negative anchors. It **timed
+out** (600 s, 958 MB partial proof, free = 957). A cardinality lower bound pins no variable, so it
+propagates nothing; it only constrains the counter. So the operative distinction is not "positive vs
+negative" but **"does the anchor force variables TRUE?"** — B-i does, f₆ ≥ 135 does not.
+
+**But tightness converts pressure into propagation.** The *same encoder and same shape* at f₆ ≥ 209
+(leaf 0) closes in 0 s, while f₆ ≥ 135 times out. Somewhere in **135 < b < 209** the constraint becomes
+tight enough that the counter starts forcing level-6 variables TRUE and the cascade ignites. Locating
+that threshold by bisection is a cheap, well-defined next experiment and is the most concrete design
+lead this session produced.
+
+### Design consequence
+
+Any anchor for the m≤7 bulk must **force presence**, not absence, and must be tight enough to
+propagate. The whole complement-anchor family (v2 case A, all six B-ii leaves) is negative by
+construction and is therefore **dead as a tractability device**, independently of the Case-B
+completeness question. B-i is the only member of the campaign that works, and it works because it is a
+forced-presence anchor.
+
+### Hilton–Milner licensing of the B-i WLOG, and the constant D
+
+AK's Theorem 1.1 does **not** cleanly apply at (n,k,t) = (10,6,3): with k−t+1 = 4 and t−1 = 2, n = 10
+is *exactly* the left endpoint of the r=3 regime, (k−t+1)(2+(t−1)/(r+1)) = 4(2+2/4) = 10, so the
+boundary clause fires and asserts |Sl(F₃,₃;6)| = |Sl(F₃,₄;6)| — but F₃,₄ = {S ⊆ [11] : |S| ≥ 7} has an
+**empty** 6-slice on [10], so the tie reads 84 = 0 and the uniqueness statement is unusable verbatim.
+
+The clean route is **complementation to EKR**: for 6-sets in [10], |A∩B| ≥ 3 ⟺ |Aᶜ∩Bᶜ| ≥ 1
+(8 − |Aᶜ∩Bᶜ| ≤ 7), machine-verified over all pairs. So 3-intersecting 6-uniform on [10] ↔ intersecting
+4-uniform on [10], where n = 10 > 2k = 8 **strictly**:
+
+- **max = C(9,3) = 84**, agreeing with the A_r computation (35, 55, 70, **84**);
+- **uniqueness holds**: the unique optimum is a star, i.e. back in the original picture **all 6-subsets
+  of a fixed 9-set** — exactly the B-i configuration.
+
+**Hilton–Milner** then bounds non-trivial families: C(9,3) − C(5,3) + 1 = **75**, giving the dichotomy
+
+> **either G ⊆ the 6-subsets of some 9-set (= B-i, up to S₁₀), or g = |G| ≤ 75.**
+
+So for **g ≥ 76 the B-i WLOG is forced, not assumed**; for g ≤ 75 it is **not** licensed and that region
+needs separate treatment.
+
+**D = 53.** In the g ≤ 75 leaf, the maximum number of missing sets through any single element:
+deg_G(x) = |H_x| with H_x intersecting 4-uniform on the 9 points [10]\{x}. If H_x is non-star, HM on
+(9,4) (strict 9 > 8) gives |H_x| ≤ C(8,3) − C(4,3) + 1 = 53; if H_x is a star through y, non-starness
+of H forces a T ∋ x, y ∉ T meeting all of H_x, excluding C(5,3) = 10 members, so |H_x| ≤ 56 − 10 = 46.
+Hence **D = 53**, attained by the HM family on [9] (size 53, intersecting, non-star, and machine-checked
+**locally maximal**: none of the 126 4-sets can be added). *Scope: achievability and local maximality
+are machine-checked; the exhaustive upper bound is cited to Hilton–Milner, not enumerated.*
+
+**Consequence:** in the g ≤ 75 leaf every star of F is at least (126 − 53)/126 ≈ 58 % present — a
+guaranteed ≥ 73 forced-present sets in some star. Given that 126 positive units drove 1013 → 120 free,
+a forced 73 is a substantial positive-pressure handle, and it is *forced-presence* in the sense the
+propagation law requires. **Not encoded; design item only.**
+
+*Timing provenance: the host slept between runs during this session (an expired `caffeinate`), which
+is why wall-clock stamps across the log are non-monotonic. It did not affect any measurement — every
+boxed run was observed at ~99–100 % CPU against wall-clock while executing, so no cube was suspended
+mid-box.*
+
 ### Standing after the addendum
 
 - The **O(1)-anchor NO-GO stands** (v1 max-size, v2 case A).
