@@ -307,9 +307,107 @@ is why wall-clock stamps across the log are non-monotonic. It did not affect any
 boxed run was observed at ~99–100 % CPU against wall-clock while executing, so no cube was suspended
 mid-box.*
 
-### Standing after the addendum
+## Threshold bisection — where pressure ignites (2026-07-19)
 
-- The **O(1)-anchor NO-GO stands** (v1 max-size, v2 case A).
-- The **non-O(1) regime is not closed** — B-i is a certified 0 s win where every prior anchor timed out.
-- Case B's completeness still rests on the **unverified AK bound**; that lookup remains the gate.
-- **Open-cell compute remains NO-GO** regardless, per standing instruction.
+The propagation law predicted an ignition threshold in 135 < b < 209. Bisected on the validation cell
+with **300 s boxes** (the question is fast/not-fast, not deep grinding); encoder `seqcounter`
+throughout, free = 957 at every point (a cardinality constraint pins nothing, so the free-var proxy is
+constant here by construction and carries no signal — see the propagation law above).
+
+### Global cost curve — counter over all 210 level-6 variables
+
+| b | fraction | verdict | time | drat-trim |
+|---|---|---|-----:|-----------|
+| 135 | 64 % | TIMEOUT | > 600 s | — |
+| 172 | 82 % | TIMEOUT | > 300 s | — |
+| 181 | 86 % | TIMEOUT | > 300 s | — |
+| 185 | 88 % | TIMEOUT | > 300 s | — |
+| **190** | **90 %** | **UNSAT** | **120 s** | **exit 0, `s VERIFIED`** |
+| 209 | 99.5 % | UNSAT | 0 s | exit 0, `s VERIFIED` |
+
+**Global ignition b\* ∈ (185, 190]**, bracketed to width 5.
+
+### Star-local cost curve — counter over only the 126 level-6 sets containing element 10
+
+| s | fraction of star | verdict | time |
+|---|---|---|-----:|
+| 81 | 64 % | TIMEOUT | > 300 s |
+| 110 | 87 % | TIMEOUT | > 300 s |
+| **126** | **100 %** | **UNSAT** | **0 s** (this point *is* B-i) |
+
+**Star-local ignition s\* ∈ (110, 126].** Localizing the pressure to a single star does **not** ignite
+earlier.
+
+### Right-censoring caveat
+
+**Every TIMEOUT above is right-censored at its box.** A 300 s box establishes "> 300 s", not a finite
+cost — it cannot distinguish a true cost of 310 s from one of 10 hours. Therefore:
+
+- Above the threshold there **is** a measured ramp: 190 → 120 s, 209 → 0 s; cost falls smoothly with
+  tightening rather than as a step.
+- Below the threshold the curve is **unmeasured, not flat**. The four timeouts are a censoring
+  artifact, and the shape at b\* cannot be distinguished between a steep ramp and a true cliff without
+  uncensored runs.
+
+**"Threshold" is a convenience of the 300 s box, not an established discontinuity.** *Ramp confirmed
+above b\*; shape at b\* undetermined.*
+
+### The two justified floors on a common axis
+
+| quantity | sets | fraction of the 126-set star |
+|----------|-----:|------------------------------|
+| every-star floor (HM, D = 53) | **73** | **58 %** |
+| some-star floor (pigeonhole, min degree ≤ 45) | **81** | **64 %** |
+| measured: still timing out at | 110 | 87 % |
+| star-local ignition s\* | (110, 126] | **87–100 %** |
+
+Both justified floors sit below 110, which is itself below ignition; the stronger floor (81) was probed
+directly and timed out. The gap from 81 to the bottom of the ignition bracket is **≥ 29 sets**, and to
+the only confirmed ignition point **45 sets**.
+
+**The g ≤ 75 leaf does not close by tuned pressure alone — out of reach, not marginal, and the margin
+is measured rather than inferred.**
+
+### Structural conclusion
+
+Put the two curves on a common axis and the star result explains itself. A star constraint at s forces
+s sets present *in total*; a global constraint at b forces b. Star s = 110 therefore forces **fewer**
+absolute sets than global b = 172, which already timed out — localization never concentrated more
+force, it concentrated **less**.
+
+**Pressure ignites only near saturation, because a counter pins variables TRUE only when it is nearly
+saturated.** That is the same mechanism as the propagation law, seen through a non-unit constraint:
+tightness is what converts pressure into forced presence, and it is doing all the work at both 190/210
+and 126/126. **Localization is not an independent lever** — and the s = 126 saturation point *is* B-i,
+where the cardinality constraint degenerates into 126 outright units.
+
+### Standing
+
+Certified on the **validation cell** (10,2,1) @ 211, DRAT + drat-trim `s VERIFIED`:
+
+- **leaf (0), g ≤ 1** — closed (f₆ ≥ 209, UNSAT 0 s).
+- **g ≥ 76, i.e. G contained in a 9-set family (= B-i)** — closed (UNSAT 0 s). By the Hilton–Milner
+  dichotomy this containment is *forced* for g ≥ 76, so the B-i cube closes the whole branch, not an
+  assumed sub-case.
+- **Remaining open: 2 ≤ g ≤ 75 with G contained in no 9-set family.** The **positive-pressure route to
+  this leaf is closed by measurement** (both justified floors far below ignition, above).
+
+Prior standing carried forward: the **O(1)-anchor NO-GO stands** (v1 max-size, v2 case A); the entire
+complement-anchor family is negative by construction and dead as a tractability device; the AK gate is
+**resolved** (via EKR/HM complementation — AK Theorem 1.1 does not apply cleanly at the r = 3 boundary).
+
+### Three candidate routes for the g ≤ 75 leaf
+
+1. **Clustering theorem (live question).** Seek a stability/clustering statement for non-star-contained
+   3-intersecting 6-uniform families with g ≤ 75 — strong enough to force a *positive* structure the
+   solver can propagate from, rather than the degree bounds D = 53 / min-degree ≤ 45, which are now
+   known to be too weak by ≥ 29 sets. This is the only route whose obstacle is mathematical rather than
+   computational, and it is **the live question**.
+2. **Hybrid sub-split.** Split g ≤ 75 further so each leaf carries a *forced-presence unit* anchor,
+   trading more leaves for leaves that actually propagate. Viable in principle; cost unknown, and the
+   B-ii experience warns that a split whose leaves anchor absences buys nothing.
+3. **Park.** Park the leaf pending the route (ii) certified-symmetry-breaking tooling gap (see
+   `TOOLING.md`), as was done for the n=10 cells previously.
+
+**Open-cell compute remains NO-GO** regardless, per standing instruction. All of the above is
+validation-cell only.
