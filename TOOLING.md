@@ -45,3 +45,75 @@ drat-trim certificates/even/9_3_2/cell_9_3_2_ge121.cnf \
 Result: parsed 42211 variables / 220132 clauses, `s VERIFIED`, **exit code 0**
 (~63 s). This confirms the deposited certificate remains valid under an independently
 rebuilt checker and that the toolchain is correctly installed for future cells.
+
+---
+
+# n=10 pseudo-Boolean toolchain (Option B ruling, 2026-07-18)
+
+For the n=10 cells the certification standard is **VeriPB pseudo-Boolean proofs
+checked by the formally verified CakeML checker `cake_pb`** (dual-standard: the
+n=9 cells remain DRAT/drat-trim, frozen and untouched). Built on macOS 26.5.1,
+Apple Silicon (arm64), Apple clang 21.
+
+## Build dependencies (Homebrew)
+- Homebrew 6.0.11 at `/opt/homebrew` (arm64).
+- **boost 1.90.0_1**, **gmp 6.3.0** (`brew install boost gmp`).
+- CMake 4.4.0 (pip, in `~/solvers/pbenv`); cargo/rustc 1.96.1.
+
+## Solver — RoundingSat (native pseudo-Boolean, VeriPB proof logging)
+- Source: gitlab.com/MIAOresearch/software/roundingsat, commit **d4edbf7** (2026-03-03).
+- Build: `cmake -DCMAKE_BUILD_TYPE=Release -Dsoplex=OFF -Dgmp=OFF .. && make`
+  (SoPlex off — not needed for PB decision/UNSAT; non-GMP uses header-only cpp_int).
+- **No source patch required.** The documented Apple-clang `__int128` `abs`
+  ambiguity (gitlab issue #2) is already fixed upstream by an `#ifdef __APPLE__`
+  block in `src/auxmath.hpp` (provides `abs`/`gcd`/`msb`/`pow` for `int128`).
+- Native cardinality: constraints are stated directly in OPB (e.g. `+1 x1 ... >= k ;`);
+  no sequential-counter encoding. Proof logging via `--proof-log=<file>` (VeriPB v2.0).
+
+## Elaborator / pre-checker — VeriPB 3.0.2 (Rust)
+- Source: gitlab.com/MIAOresearch/software/VeriPB, commit **4bb10c2**, version **3.0.2**.
+- Build: `cargo build --release` -> `target/release/veripb` (no patch).
+- Roles: (a) fast verification pre-check; (b) **`--elaborate` translates the solver's
+  VeriPB proof into the kernel format that `cake_pb` consumes** (mandatory stage).
+  Accepts RoundingSat's v2.0 proofs (auto-switches; emits v3.0 kernel).
+
+## Trusted checker — cake_pb (formally verified, CakeML)
+- Source: gitlab.com/MIAOresearch/software/cakepb, commit **904eed4**; ships
+  pre-generated CakeML assembly. Build: `cc basis_ffi.c cake_pb_arm8.S -o cake_pb_arm8`
+  (**builds and runs natively on arm64 Mach-O, no patch**).
+- Provenance: CakeML `1dbe30334d...`, HOL4 `63f2eb9c...`, PolyML 5.9 (CakePB build 2026-04-13).
+- **ACCEPTANCE CRITERION (rule 3 for n=10): stdout must contain `s VERIFIED
+  UNSATISFIABLE`.** The exit code is NOT reliable — `cake_pb` returns 0 even on a
+  rejected proof (it prints `c Checking failed ...`). Certification keys on the
+  `s VERIFIED` line, never on exit status.
+
+## Verified pipeline (toy gate, 2026-07-18)
+20-variable native-cardinality UNSAT OPB (`sum >= 11` and `sum <= 10`):
+```
+roundingsat --proof-log=toy.pbp toy.opb           # s UNSATISFIABLE, VeriPB v2.0 proof
+veripb --opb --elaborate toy.elab.pbp toy.opb toy.pbp   # s VERIFIED UNSATISFIABLE; kernel v3.0
+cake_pb_arm8 toy.opb toy.elab.pbp                 # s VERIFIED UNSATISFIABLE   <-- TRUSTED
+```
+All three stages pass. Native-PB certification pipeline is functional on this machine.
+
+## Certified symmetry breaking — BreakID (LIMITATION, blocks native-PB SB)
+- Source: bitbucket.org/krr/breakid branch `veriPB`, commit **1f4df70**, BreakID 2.5.
+- Build patches (its plain Makefile): `-std=c++11` -> `-std=gnu++17` (boost 1.90 needs
+  >=C++14; gnu for BSD types), add `-Duint=unsigned` (saucy uses the BSD `uint`), add
+  brew include/lib paths, drop `-static` (unsupported on macOS). Builds arm64.
+- **veriPB proof emission works for CNF input only** (confirmed: 983-line lex-leader
+  proof on pigeonhole). For **PB/OPB input it is unimplemented**: BreakID exits with
+  "Logging is only implemented with CNF input (not with asp or pb input yet)".
+- **Consequence:** certified symmetry breaking and native-PB cardinality are currently
+  MUTUALLY EXCLUSIVE with this tooling. Native cardinality (RoundingSat/OPB) has no
+  certified symmetry-breaking proof; certified symmetry breaking (BreakID) requires CNF
+  input, which reintroduces clausal cardinality.
+
+## n=10 certification standard (ruling 2026-07-18)
+The baseline n=10 standard is: **native-PB OPB encoding (cardinality as first-class
+constraints) -> RoundingSat with VeriPB proof logging -> `veripb --elaborate` to kernel
+-> `cake_pb` as the trusted checker; acceptance = stdout contains
+`s VERIFIED UNSATISFIABLE`.** Symmetry breaking is **NOT** part of the baseline standard.
+It is a per-cell arsenal decision: if a specific cell needs it, use the BreakID/CNF route
+(clausal cardinality, certified symmetry breaking) for that cell; revisit if BreakID
+gains native-PB proof logging. The n=9 cells are unaffected (DRAT/drat-trim, frozen).

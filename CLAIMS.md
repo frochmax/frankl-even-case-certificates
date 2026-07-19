@@ -6,6 +6,15 @@ Each entry states an EXACT maximum we certify, with both-direction evidence and 
 provenance for that cell. Openness is stated **to the best of our determination** as of 2026-07-09,
 per the exact citations shown. We claim only these exact maxima — not the general conjecture.
 
+**Certification standards (dual).** The n=9 cells below are certified in the SAT/DRAT standard:
+UNSAT direction by `drat-trim` (exit 0), SAT witness by `tools/verifier_standalone.py`. Any future
+**n=10** cells use the pseudo-Boolean standard: native-PB OPB encoding (cardinality as first-class
+constraints), RoundingSat with VeriPB proof logging, `veripb --elaborate` to kernel format, and the
+formally verified CakeML checker **`cake_pb`** as the trusted checker — acceptance is `cake_pb`
+printing `s VERIFIED UNSATISFIABLE` (its exit code is not a reliable signal). The SAT/witness
+direction is unchanged (`verifier_standalone.py`, exact arithmetic). Symmetry breaking is not part of
+the baseline; see `TOOLING.md`. No n=10 exact-maximum claims appear yet.
+
 ## (9,3,2) — certified maximum = 120
 
 **CLAIM.** The maximum size of a t-intersecting 2-Sperner family in 2^[9] with t=3 is exactly **120** (= the conjectured value). Certified both directions: drat-trim exit 0 for the ≤ 120 bound; independent exact-arithmetic verifier for a witness of size 120.
