@@ -1,5 +1,8 @@
-# Generated with: LC_ALL=C find . -type f -not -path './.git/*' -not -name SHA256SUMS | LC_ALL=C sort | xargs shasum -a 256
+# Generated with: LC_ALL=C find . -type f -not -path './.git/*' -not -name 'SHA256SUMS*' | LC_ALL=C sort | xargs shasum -a 256
 # Sort order is pinned to LC_ALL=C so regeneration is byte-stable across locales.
+# The glob 'SHA256SUMS*' (not bare SHA256SUMS) is load-bearing: it keeps an in-repo
+# temp file such as SHA256SUMS.new from being captured into its own manifest, which
+# would then fail the next `shasum -c` and read like certificate corruption.
 d1c06efbc2b1afc3400f9904b66acd7fb487520d885795f13bb7b091da3751e9  ./AI_DISCLOSURE.md
 01b0ef61bcf5f76b3f0662dc012c6f252ab655bd294a001bb8574a2ada005f32  ./CLAIMS.md
 d299a631bc6e5a346dcdca8e55d64a8bd3016c8c401ddb5098274be586c3c170  ./README.md
@@ -21,7 +24,7 @@ ee7147c9a337947386e7b9f1a9658c4f1386b7a981f929c5d0ee11e37818a40a  ./certificates
 5125c08c8dd4d5d3ae46a085222ad77cbf8d00d895e4d686ecc3fb3d18472e51  ./notes/ANCHOR_NOTE.md
 6d8c15c016913289611cd51e53514ee9bc97e978c4c5c4f649a9e7c7fc2c8982  ./notes/CUBES_NOTE.md
 c910a267c2bb31066f557f43dab71c5ddd935b4e83254c9121a90855d994cafa  ./notes/MIRSKY_NOTE.md
-da4a4bc76694b969de0f4ed93cfd2e3b1a149173c20e43cc3209e95cde53531e  ./notes/PATH2_NOTE.md
+9955c85ede814f50e54b3a058d23053b1039020ca5d1310b4114945150a8c85e  ./notes/PATH2_NOTE.md
 c12b7d1a0287f102bd5ad48adc8c64709b1e175f07ff3bff869c6bf11a8ba382  ./notes/STATUS_10_2_k.md
 5d513cadb0f04b7bd4019b669d432fcd5899ef311eb28162a0ebf10f0b644a12  ./notes/TOOLING.md
 150fe1e0ffa3de3c7735bd54410a05b6877e65483fefb1380449415184d17213  ./tools/cert_cell.py

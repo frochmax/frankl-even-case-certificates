@@ -160,5 +160,8 @@ if the ladder's *output* is redesigned to be structural. Resolve that design que
 
 ---
 
-*Recon scope: literature only. No encoding, no solver run, no certificate touched, nothing pushed.
-This file is not in `SHA256SUMS` (draft, not frozen).*
+*Recon scope: literature only. No encoding, no solver run, no certificate touched.*
+
+*Frozen into `SHA256SUMS` in commit `bcced39` (2026-07-19), accepted as written. The draft
+disclaimer that stood here — "this file is not in SHA256SUMS (draft, not frozen)" — was true only
+before that commit and has been corrected.*
