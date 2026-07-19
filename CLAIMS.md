@@ -13,7 +13,7 @@ constraints), RoundingSat with VeriPB proof logging, `veripb --elaborate` to ker
 formally verified CakeML checker **`cake_pb`** as the trusted checker — acceptance is `cake_pb`
 printing `s VERIFIED UNSATISFIABLE` (its exit code is not a reliable signal). The SAT/witness
 direction is unchanged (`verifier_standalone.py`, exact arithmetic). Symmetry breaking is not part of
-the baseline; see `TOOLING.md`. No n=10 exact-maximum claims appear yet.
+the baseline; see `notes/TOOLING.md`. No n=10 exact-maximum claims appear yet.
 
 ## (9,3,2) — certified maximum = 120
 

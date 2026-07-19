@@ -120,7 +120,7 @@ gains native-PB proof logging. The n=9 cells are unaffected (DRAT/drat-trim, fro
 
 ## Additional tools built 2026-07-18 (symmetry-breaking investigation; n=10 parked)
 
-The n=10 open cells (10,2,k) are PARKED — see `PARKED_10_2_k.md`. The relevant toolchain state:
+The n=10 open cells (10,2,k) were parked at this point; that status has since been superseded — see `STATUS_10_2_k.md`. The relevant toolchain state:
 
 - **satsuma** (modern structure-based symmetry breaker): github.com/markusa4/satsuma commit
   **c6ad1b5** (v1.4, dejavu 2.1). Build: `cmake . && make satsuma` (dejavu auto-fetched). Builds
@@ -144,4 +144,4 @@ RoundingSat's v2.0 body is rejected by BOTH `veripb` 3.0.2 and pboxide 0.2.0 at 
 (v2.0 cutting-planes abbreviation) — `Expected a top level rule name ... but found 'p'`. **Blocker:
 no VeriPB-3.0-emitting SAT solver is available on arm64** (RoundingSat=v2.0; kissat/CaDiCaL=DRAT/LRAT;
 kissat_fork=2023-broken; the AAAI'26 artifacts bundle no solver and no DRAT->VeriPB bridge). See
-`PARKED_10_2_k.md` for the resumption condition.
+`STATUS_10_2_k.md` for the resumption condition (supersedes the former `PARKED_10_2_k.md`).

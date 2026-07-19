@@ -389,25 +389,99 @@ Certified on the **validation cell** (10,2,1) @ 211, DRAT + drat-trim `s VERIFIE
 - **g ≥ 76, i.e. G contained in a 9-set family (= B-i)** — closed (UNSAT 0 s). By the Hilton–Milner
   dichotomy this containment is *forced* for g ≥ 76, so the B-i cube closes the whole branch, not an
   assumed sub-case.
-- **Remaining open: 2 ≤ g ≤ 75 with G contained in no 9-set family.** The **positive-pressure route to
-  this leaf is closed by measurement** (both justified floors far below ignition, above).
+- **Remaining open: 2 ≤ g ≤ 75 with G contained in no 9-set family.** Two routes to this leaf are now
+  closed: **positive pressure** (both justified floors far below ignition, above) and
+  **covering-number clustering** (see the closure section below).
 
 Prior standing carried forward: the **O(1)-anchor NO-GO stands** (v1 max-size, v2 case A); the entire
 complement-anchor family is negative by construction and dead as a tractability device; the AK gate is
 **resolved** (via EKR/HM complementation — AK Theorem 1.1 does not apply cleanly at the r = 3 boundary).
 
-### Three candidate routes for the g ≤ 75 leaf
+## Clustering route — closed by covering-number reconnaissance (2026-07-19)
 
-1. **Clustering theorem (live question).** Seek a stability/clustering statement for non-star-contained
-   3-intersecting 6-uniform families with g ≤ 75 — strong enough to force a *positive* structure the
-   solver can propagate from, rather than the degree bounds D = 53 / min-degree ≤ 45, which are now
-   known to be too weak by ≥ 29 sets. This is the only route whose obstacle is mathematical rather than
-   computational, and it is **the live question**.
-2. **Hybrid sub-split.** Split g ≤ 75 further so each leaf carries a *forced-presence unit* anchor,
-   trading more leaves for leaves that actually propagate. Viable in principle; cost unknown, and the
-   B-ii experience warns that a split whose leaves anchor absences buys nothing.
-3. **Park.** Park the leaf pending the route (ii) certified-symmetry-breaking tooling gap (see
-   `TOOLING.md`), as was done for the n=10 cells previously.
+The remaining hope for the g ≤ 75 leaf was a **clustering theorem**: force the missing family to
+concentrate so tightly that a named, finite, *positive-unit-generating* structure appears. The natural
+formulation is via the **covering number** τ. In complement language the object is
+**H_x = an intersecting 4-uniform family on the 9 points [10]\{x}**, and the pigeonhole floor gives
+**|H_x| ≤ 45**. If that size range forced τ(H_x) ≤ 2 — "two elements cover all of H_x" — the deficit
+would convert into forced-present sets.
+
+### Literature: the τ ≥ 3 bound does not reach k = 4
+
+- **Frankl (1978)** determined the largest intersecting k-uniform family with covering number 3, for
+  **n ≥ n₀(k)** with doubly-exponential dependence on k.
+- **Frankl–Wang**, arXiv:2207.05487v4 (Dec 2024), abstract verbatim: *"we prove that for k ≥ 7, n ≥ 2k,
+  any intersecting k-graph F with covering number at least three, satisfies |F| ≤ C(n−1,k−1) −
+  C(n−k,k−1) − C(n−k−1,k−1) + C(n−2k,k−1) + C(n−k−2,k−3)"* — requires **k ≥ 7**.
+- **arXiv:2405.02621**, on the extremal family 𝒞₃(n,k): *"The conclusion of Theorem 1.2 holds for any
+  k≥100, n>2k."* — requires **k ≥ 100**.
+
+Our (n,k) = (9,4) lies outside all three. (For τ ≥ 2 the answer is Hilton–Milner, HM(9,4) = 53.)
+
+### The extrapolation trap
+
+Evaluating the Frankl–Wang formula **out of range** at (9,4) gives
+C(8,3) − C(5,3) − C(4,3) + C(1,3) + C(3,1) = 56 − 10 − 4 + 0 + 3 = **45** — numerically identical to the
+pigeonhole ceiling, which would have put the leaf exactly on the boundary. **The true value is 48.**
+Extrapolating a theorem past its stated range would have produced both a wrong number and a spuriously
+dramatic conclusion. Recorded as a caution: the range conditions in these theorems are load-bearing.
+
+### Three numbers on one axis
+
+| structure | max \|H\| on [9], k = 4 |
+|-----------|------------------------:|
+| star (τ = 1) | 56 |
+| non-star (τ ≥ 2, Hilton–Milner) | 53 |
+| **τ ≥ 3** | **48** |
+| **our range ceiling** | **45** |
+
+The whole range sits **below 48**, so τ ≥ 3 is achievable throughout and **nothing is forced anywhere in
+it**. τ ≤ 2 would be forced only from |H_x| ≥ 49; we top out at 45, **short by 4**. The route fails for a
+quantitative reason, not a structural one — a leaf with ceiling 49 would have worked.
+
+### Provenance of the closure
+
+T = 48 was obtained by a small auxiliary SAT computation (Cadical, 126 variables), *not* by the
+campaign's certified toolchain. The two halves have different status, and only one is needed:
+
+- **T ≥ 48 — verified.** A 48-set witness was produced and checked *independently of the search*:
+  pairwise intersecting, and 0 of the 36 pairs cover the family, so τ ≥ 3 genuinely holds.
+- **T ≤ 48 — uncertified.** The infeasibility of \|H\| ≥ 49 is a bare solver assertion, below the
+  drat-trim standard.
+
+**The closure needs only T ≥ 46** — that is what makes the implication "\|H_x\| > T ⇒ τ ≤ 2" unable to
+fire anywhere in \|H_x\| ≤ 45. The **verified witness alone establishes this** (it gives T ≥ 48 ≥ 46).
+The uncertified half only bounds T from **above** and is therefore **not load-bearing** for the closure.
+A certified re-run is required **only if a future design makes the exact value of T load-bearing** —
+for the present negative conclusion it is not.
+
+### The τ ≤ 2 counterfactual — the route was doomed twice over
+
+Had τ(H_x) ≤ 2 been forced, some pair {a,b} would meet every member of H_x; unwinding the complement,
+no missing 6-set through x contains both a and b, i.e. **every 6-set containing the triple {x,a,b} is
+present** — C(7,3) = **35 positive units**. That is exactly the unit-generating structure the route was
+aiming at, and unlike cardinality pressure it *would* cascade.
+
+But 35 units is far below the 126 that ignited B-i, and below the star-local floors (73, 81) already
+measured out of reach — star-local ignition sits in (110, 126]. **So even had the clustering step
+succeeded, its output would have landed on the wrong side of ignition.** The route fails at the
+mathematics *and* would have failed at the measurement. Drafted only; never encoded.
+
+### Standing for the g ≤ 75 leaf
+
+Both measured routes are closed: **positive pressure** (floors 73/81 vs ignition 110–126) and
+**covering-number clustering** (ceiling 45 vs crossover 49). Two options remain:
+
+1. **Hybrid sub-split — design stage, with a known headwind.** Split g ≤ 75 further so each sub-leaf
+   carries a *forced-presence unit* anchor rather than a bound. The headwind, recorded so it is not
+   rediscovered: **naive pair-trace splitting dilutes the fill fraction.** Branching on how G meets a
+   pair {a,b} partitions the missing sets across branches, so each branch forces *fewer* sets present
+   than the undivided leaf; since ignition is governed by nearness to saturation, each branch moves
+   *away* from ignition, not toward it. A viable split must concentrate forced presence within a
+   branch, not merely partition cases — and the B-ii experience warns that any split whose leaves
+   anchor **absences** buys nothing at all.
+2. **Park** pending the route (ii) certified-symmetry-breaking toolchain gap (see `TOOLING.md`), as was
+   done for the n=10 cells previously.
 
 **Open-cell compute remains NO-GO** regardless, per standing instruction. All of the above is
 validation-cell only.

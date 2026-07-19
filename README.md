@@ -72,6 +72,20 @@ arXiv version (arXiv:1506.00864v2, Theorem 8, with equality family H₀,ₙ,ₖ 
 ⌊n/2⌋+1, …, ⌊n/2⌋+k); the Frankl-1990 origin follows Patkós's survey (GMT's Theorem 8 is itself
 attributed there to Gerbner 2013).
 
+## Ongoing campaign: the open (10,2,k) cells
+
+Beyond the certified n=9 results, an **active, uncertified investigation** targets the n=10, t=2 cells
+— **(10,2,2)**, **(10,2,3)** and **(10,2,4)**, conjectured to equal **330**, **375** and **385**
+respectively. These are genuinely open: no citable theorem determines them at n=10, and **this
+repository makes no claim about their values.** Work so far has been confined to a *validation cell*,
+(10,2,1), whose answer is known independently (Milner 1968), so that methods can be measured against
+ground truth before any open-cell compute; on that cell two leaves of a case tree are certified, while
+one leaf remains open with two candidate routes closed by measurement.
+
+**Entry point: [`notes/STATUS_10_2_k.md`](notes/STATUS_10_2_k.md)**, with the design and measurement
+record in [`notes/ANCHOR_NOTE.md`](notes/ANCHOR_NOTE.md), [`notes/CUBES_NOTE.md`](notes/CUBES_NOTE.md),
+[`notes/MIRSKY_NOTE.md`](notes/MIRSKY_NOTE.md) and [`notes/TOOLING.md`](notes/TOOLING.md).
+
 ## Why these instances
 Frankl (EJC 93 (2021), Paper 103279) proves the even-parity conjecture only in certain ranges:
 **Thm 1.11** (k=2) requires **n ≥ 3r+1**, where r=(n−t)/2; **Thm 4.1** (2≤k≤r) requires
