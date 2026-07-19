@@ -117,3 +117,31 @@ constraints) -> RoundingSat with VeriPB proof logging -> `veripb --elaborate` to
 It is a per-cell arsenal decision: if a specific cell needs it, use the BreakID/CNF route
 (clausal cardinality, certified symmetry breaking) for that cell; revisit if BreakID
 gains native-PB proof logging. The n=9 cells are unaffected (DRAT/drat-trim, frozen).
+
+## Additional tools built 2026-07-18 (symmetry-breaking investigation; n=10 parked)
+
+The n=10 open cells (10,2,k) are PARKED — see `PARKED_10_2_k.md`. The relevant toolchain state:
+
+- **satsuma** (modern structure-based symmetry breaker): github.com/markusa4/satsuma commit
+  **c6ad1b5** (v1.4, dejavu 2.1). Build: `cmake . && make satsuma` (dejavu auto-fetched). Builds
+  arm64. `satsuma lex --proof-file <f> --veripb <cnf>` emits **VeriPB version 3.0** (modern
+  `red ... : x->0` substitution steps) — **its SB prefix parses cleanly in our `veripb` 3.0.2**.
+  Proof output is marked "experimental" upstream. AAAI'26 pinned source: Zenodo 10.5281/zenodo.17607863.
+- **VeriPB (Rust)**: gitlab.com/MIAOresearch/software/VeriPB, **v3.0.2**, commit 4bb10c2
+  (`cargo build --release`). Elaborates v2.0/v3.0; rejects v1.2.
+- **pboxide** (paper's VeriPB, "VeriPB rewritten in Rust", **v0.2.0**): AAAI'26 Zenodo
+  10.5281/zenodo.17608873 (`cargo build -p pboxide-veripb`). Behaves like `veripb` 3.0.2 on our tests.
+- **cake_pb** OPB frontend `cake_pb_arm8` and CNF frontend `cake_pb_cnf_arm8`: both built from the
+  shipped ARMv8 assembly (`cc basis_ffi.c cake_pb*_arm8.S`), run native arm64. CakePB AAAI'26 Zenodo
+  10.5281/zenodo.17609070.
+- **kissat_fork** (MIAO, commit a6443a0, 2023): emits an OLD VeriPB v2.0 dialect (`f` with no count)
+  that `veripb` 3.0.2 rejects. Not usable.
+
+**Composition failure point (recorded for resumption):** a full certified UNSAT proof = satsuma's
+v3.0 SB prefix + a SAT solver's refutation proof, composed and checked against the original CNF. Our
+only compatible solver, RoundingSat, emits VeriPB **v2.0**; splicing satsuma's v3.0 prefix with
+RoundingSat's v2.0 body is rejected by BOTH `veripb` 3.0.2 and pboxide 0.2.0 at the solver's `p`
+(v2.0 cutting-planes abbreviation) — `Expected a top level rule name ... but found 'p'`. **Blocker:
+no VeriPB-3.0-emitting SAT solver is available on arm64** (RoundingSat=v2.0; kissat/CaDiCaL=DRAT/LRAT;
+kissat_fork=2023-broken; the AAAI'26 artifacts bundle no solver and no DRAT->VeriPB bridge). See
+`PARKED_10_2_k.md` for the resumption condition.
