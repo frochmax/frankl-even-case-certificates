@@ -66,6 +66,13 @@ validation cell (10,2,1). Assets ready to reuse: `CUBES_NOTE.md` (AK bounds + Op
 bounds" design + probe data), `MIRSKY_NOTE.md`, the RoundingSat/veripb/cake_pb spine, and the DRAT
 kissat/drat-trim toolchain.
 
+**Progress (2026-07-18):** the first anchor variant — branch on maximum set size — was rehearsed on
+(10,2,1) and is **NO-GO**: it only peels off pencil-closable top cases (m=10 trivial; m=9,8
+counting-closable), while the main branch m≤7, where the extremum lives, hits the same monolithic wall
+(15-min timeout). The open design task is a **bulk-splitting** anchor (complement / multi-set
+configuration anchors that reduce S₁₀ symmetry inside the m≤7 region), to be rehearsed on (10,2,1)
+before any open-cell compute. See `ANCHOR_NOTE.md`.
+
 ## Passive watch (alternative resumption)
 
 Route (ii) resumes automatically if a **VeriPB-3.0-emitting SAT solver on arm64** appears (watch:
